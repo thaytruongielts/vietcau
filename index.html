@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viết Lại Câu Lớp 11</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            color: #1a202c;
+        }
+        .container {
+            max-width: 800px;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+        }
+        .correct {
+            color: #10b981;
+            font-weight: bold;
+        }
+        .incorrect {
+            color: #ef4444;
+            font-weight: bold;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+    <div class="container mx-auto p-4 md:p-8 space-y-6">
+
+        <h1 class="text-3xl font-bold text-center text-blue-800">Bài Tập Viết Lại Câu Tiếng Anh Lớp 11</h1>
+        <p class="text-center text-gray-600">Điền câu trả lời của bạn vào ô trống. Nhấn "Kiểm tra tất cả" để xem kết quả.</p>
+
+        <div id="questions-container" class="space-y-6">
+            <!-- Các câu hỏi sẽ được tạo ra bằng JavaScript -->
+        </div>
+
+        <div class="text-center mt-8">
+            <button id="check-all-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl transition duration-300">
+                Kiểm Tra Tất Cả
+            </button>
+        </div>
+
+        <div id="result-container" class="mt-8 card hidden">
+            <h2 class="text-2xl font-bold text-center">Kết Quả</h2>
+            <p id="score" class="text-xl text-center mt-2"></p>
+        </div>
+
+    </div>
+
+    <script>
+        const questions = [
+            // Câu bị động (Passive voice)
+            {
+                id: 1,
+                original: "They are building a new hospital in this area.",
+                clues: ["A", "new", "hospital"],
+                correctAnswer: "A new hospital is being built in this area."
+            },
+            {
+                id: 2,
+                original: "The teacher has explained the lesson to the students.",
+                clues: ["The", "lesson", "has"],
+                correctAnswer: "The lesson has been explained to the students by the teacher."
+            },
+            {
+                id: 3,
+                original: "Someone broke the window last night.",
+                clues: ["The", "window", "was"],
+                correctAnswer: "The window was broken last night."
+            },
+            {
+                id: 4,
+                original: "You should not throw rubbish in the street.",
+                clues: ["Rubbish", "shouldn't", "be"],
+                correctAnswer: "Rubbish shouldn't be thrown in the street."
+            },
+            {
+                id: 5,
+                original: "We can't solve this problem easily.",
+                clues: ["This", "problem", "can't"],
+                correctAnswer: "This problem can't be solved easily."
+            },
+
+            // Câu tường thuật (Reported speech)
+            {
+                id: 6,
+                original: "'I am going to the cinema now,' he said.",
+                clues: ["He", "said", "that"],
+                correctAnswer: "He said that he was going to the cinema then."
+            },
+            {
+                id: 7,
+                original: "'Did you finish your homework?' she asked me.",
+                clues: ["She", "asked", "me"],
+                correctAnswer: "She asked me if I had finished my homework."
+            },
+            {
+                id: 8,
+                original: "'Don't forget to lock the door,' my father told me.",
+                clues: ["My", "father", "told"],
+                correctAnswer: "My father told me not to forget to lock the door."
+            },
+            {
+                id: 9,
+                original: "'What time will the train leave?' I asked them.",
+                clues: ["I", "asked", "them"],
+                correctAnswer: "I asked them what time the train would leave."
+            },
+            {
+                id: 10,
+                original: "'I have been learning English for five years,' Jane said.",
+                clues: ["Jane", "said", "that"],
+                correctAnswer: "Jane said that she had been learning English for five years."
+            },
+
+            // Câu đảo ngữ (Inversion)
+            {
+                id: 11,
+                original: "I have never seen such a beautiful sight.",
+                clues: ["Never", "have", "I"],
+                correctAnswer: "Never have I seen such a beautiful sight."
+            },
+            {
+                id: 12,
+                original: "She is so beautiful that everyone looks at her.",
+                clues: ["So", "beautiful", "is"],
+                correctAnswer: "So beautiful is she that everyone looks at her."
+            },
+            {
+                id: 13,
+                original: "He not only studied well but also helped his friends.",
+                clues: ["Not", "only", "did"],
+                correctAnswer: "Not only did he study well but he also helped his friends."
+            },
+            {
+                id: 14,
+                original: "You will not succeed unless you work hard.",
+                clues: ["Only", "if", "you"],
+                correctAnswer: "Only if you work hard will you succeed."
+            },
+            {
+                id: 15,
+                original: "Hardly had I arrived when the phone rang.",
+                clues: ["No", "sooner", "had"],
+                correctAnswer: "No sooner had I arrived than the phone rang."
+            },
+            
+            // Các câu hỏi hỗn hợp khác
+            {
+                id: 16,
+                original: "It's a pity I can't go to the party.",
+                clues: ["I", "wish", "I"],
+                correctAnswer: "I wish I could go to the party."
+            },
+            {
+                id: 17,
+                original: "He failed the exam because he was lazy.",
+                clues: ["Because", "of", "his"],
+                correctAnswer: "Because of his laziness, he failed the exam."
+            },
+            {
+                id: 18,
+                original: "The man is my uncle. He is standing over there.",
+                clues: ["The", "man", "who"],
+                correctAnswer: "The man who is standing over there is my uncle."
+            },
+            {
+                id: 19,
+                original: "Despite the bad weather, we went for a walk.",
+                clues: ["Although", "the", "weather"],
+                correctAnswer: "Although the weather was bad, we went for a walk."
+            },
+            {
+                id: 20,
+                original: "I didn't arrive until it got dark.",
+                clues: ["It", "wasn't", "until"],
+                correctAnswer: "It wasn't until it got dark that I arrived."
+            }
+        ];
+
+        const questionsContainer = document.getElementById('questions-container');
+        const checkAllBtn = document.getElementById('check-all-btn');
+        const resultContainer = document.getElementById('result-container');
+        const scoreElement = document.getElementById('score');
+
+        // Hàm tạo và hiển thị các câu hỏi
+        function renderQuestions() {
+            questionsContainer.innerHTML = '';
+            questions.forEach(q => {
+                const questionCard = document.createElement('div');
+                questionCard.classList.add('card', 'space-y-4');
+                questionCard.innerHTML = `
+                    <div>
+                        <p class="text-lg font-semibold">Câu ${q.id}:</p>
+                        <p class="text-gray-700 italic">"${q.original}"</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">Gợi ý: ${q.clues.join(', ')}</p>
+                    </div>
+                    <div>
+                        <label for="answer-${q.id}" class="block text-sm font-medium text-gray-700">Viết lại câu:</label>
+                        <input type="text" id="answer-${q.id}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2 border">
+                    </div>
+                    <div id="feedback-${q.id}" class="hidden text-sm mt-2">
+                        <p class="font-medium">Đáp án đúng: <span class="correct-answer-text"></span></p>
+                    </div>
+                `;
+                questionsContainer.appendChild(questionCard);
+            });
+        }
+
+        // Hàm kiểm tra tất cả câu trả lời và tính điểm
+        function checkAnswers() {
+            let correctCount = 0;
+            questions.forEach(q => {
+                const input = document.getElementById(`answer-${q.id}`);
+                const feedbackDiv = document.getElementById(`feedback-${q.id}`);
+                const correctAnswerSpan = feedbackDiv.querySelector('.correct-answer-text');
+
+                const userAnswer = input.value.trim().replace(/\.$/, '').toLowerCase();
+                const correctAnswer = q.correctAnswer.trim().replace(/\.$/, '').toLowerCase();
+
+                feedbackDiv.classList.remove('hidden');
+                correctAnswerSpan.textContent = q.correctAnswer;
+
+                if (userAnswer === correctAnswer) {
+                    input.classList.remove('border-red-500');
+                    input.classList.add('border-green-500');
+                    input.style.backgroundColor = '#d1fae5';
+                    correctCount++;
+                } else {
+                    input.classList.remove('border-green-500');
+                    input.classList.add('border-red-500');
+                    input.style.backgroundColor = '#fee2e2';
+                }
+            });
+
+            // Hiển thị kết quả
+            resultContainer.classList.remove('hidden');
+            scoreElement.textContent = `Bạn đã làm đúng ${correctCount} trên ${questions.length} câu.`;
+        }
+
+        // Gán sự kiện cho nút "Kiểm tra"
+        checkAllBtn.addEventListener('click', checkAnswers);
+
+        // Khởi tạo trang web
+        window.onload = renderQuestions;
+
+    </script>
+</body>
+</html>
